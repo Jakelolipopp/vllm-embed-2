@@ -1,17 +1,15 @@
 # Dockerfile
 FROM vllm/vllm-openai:latest
 
-# Install RunPod SDK, Hugging Face Hub, and hf_transfer for faster downloads
-RUN pip install --no-cache-dir runpod huggingface-hub hf_transfer
+# Install RunPod SDK
+RUN pip install --no-cache-dir runpod
 
 # Enable hf_transfer for significantly faster model downloading during build
 ENV HF_HUB_ENABLE_HF_TRANSFER="1"
 
-# Download the model directly into the container image
+# Download the model directly into the container image using the new 'hf' CLI
 RUN mkdir -p /model && \
-    huggingface-cli download sakamakismile/Huihui-Qwen3.6-35B-A3B-abliterated-NVFP4 \
-    --local-dir /model \
-    --local-dir-use-symlinks False
+    hf download sakamakismile/Huihui-Qwen3.6-35B-A3B-abliterated-NVFP4 --local-dir /model
 
 # Set model environment variable to the local directory path
 ENV MODEL_NAME="/model"

@@ -67,4 +67,5 @@ ENV REASONING_PARSER="qwen3"
 COPY worker.py /worker.py
 WORKDIR /
 
-CMD ["python3", "-u", "/worker.py"]
+# Override the base image's entrypoint to execute the custom worker
+ENTRYPOINT ["python3", "-u", "/worker.py"]
